@@ -125,6 +125,7 @@ install_nodejs() {
   echo " done"
 }
 
+sudo sysctl -w vm.max_map_count=262144
 
 install_jdk ${BUILD_DIR} ${CACHE_DIR}
 install_nodejs ${BUILD_DIR} ${CACHE_DIR}
