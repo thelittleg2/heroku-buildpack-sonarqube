@@ -14,10 +14,10 @@ BP_DIR=`cd $(dirname $0); cd ..; pwd`
 #SONAR_VERSION="7.4"
 #SONAR_VERSION="9.3"
 #9.3 complains about max_map_size
-#SONAR_VERSION="9.3.0.51899"
+SONAR_VERSION="9.3.0.51899"
 #8.0 also complains about max_map_size
 #SONAR_VERSION="8.0"
-SONAR_VERSION="8.9.8.54436"
+#SONAR_VERSION="8.9.8.54436"
 #ANT_VERSION="1.9.9"
 ANT_VERSION="1.9.13"
 SONAR_HOME=${BUILD_DIR}/sonarqube
