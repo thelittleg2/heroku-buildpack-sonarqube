@@ -34,6 +34,20 @@ if [ ! -d ${CACHE_DIR} ]; then
     mkdir -p ${CACHE_DIR}
 fi
 
+install_jdk() {
+  local install_dir=${1}
+  local CACHE_DIR=${2}
+
+  JVM_BUILDPACK_URL="https://buildpack-registry.s3.us-east-1.amazonaws.com/buildpacks/heroku/jvm.tgz"
+  mkdir -p /tmp/jvm-common
+  curl --silent --fail --retry 3 --retry-connrefused --connect-timeout 5 --location $JVM_BUILDPACK_URL | tar xzm -C /tmp/jvm-common --strip-components=1
+  source /tmp/jvm-common/bin/util
+  source /tmp/jvm-common/bin/java
+
+  install_java_with_overlay ${BUILD_DIR}
+}
+
+
 install_sonarqube() {
   local BUILD_DIR=${1}
   local CACHE_DIR=${2}
@@ -119,6 +133,7 @@ install_nodejs() {
 #sudo sysctl -w vm.max_map_count=262144
 #sysctl -w vm.max_map_count=262144
 
+install_jdk ${BUILD_DIR} ${CACHE_DIR}
 install_nodejs ${BUILD_DIR} ${CACHE_DIR}
 install_sonarqube ${BUILD_DIR} ${CACHE_DIR}
 #install_sonarts_plugin ${BUILD_DIR} ${CACHE_DIR}
