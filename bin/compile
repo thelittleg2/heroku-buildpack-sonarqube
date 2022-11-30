@@ -34,24 +34,6 @@ if [ ! -d ${CACHE_DIR} ]; then
     mkdir -p ${CACHE_DIR}
 fi
 
-install_jdk() {
-  local install_dir=${1}
-  local CACHE_DIR=${2}
-
-  JVM_COMMON_BUILDPACK=${JVM_COMMON_BUILDPACK:-https://codon-buildpacks.s3.amazonaws.com/buildpacks/heroku/jvm-common.tgz}
-  JVM_COMMON="jvm-common.tgz"
-  if [ ! -f ${CACHE_DIR}/${JVM_COMMON} ]; then
-    curl --retry 3 --silent --location $JVM_COMMON_BUILDPACK > ${CACHE_DIR}/${JVM_COMMON}
-  fi
-  mkdir -p /tmp/jvm-common  
-  tar xzmf ${CACHE_DIR}/${JVM_COMMON} -C /tmp/jvm-common --strip-components=1
-  source /tmp/jvm-common/bin/util
-  source /tmp/jvm-common/bin/java
-  source /tmp/jvm-common/opt/jdbc.sh
-
-  install_java_with_overlay ${install_dir}
-}
-
 install_sonarqube() {
   local BUILD_DIR=${1}
   local CACHE_DIR=${2}
@@ -137,7 +119,6 @@ install_nodejs() {
 #sudo sysctl -w vm.max_map_count=262144
 #sysctl -w vm.max_map_count=262144
 
-install_jdk ${BUILD_DIR} ${CACHE_DIR}
 install_nodejs ${BUILD_DIR} ${CACHE_DIR}
 install_sonarqube ${BUILD_DIR} ${CACHE_DIR}
 #install_sonarts_plugin ${BUILD_DIR} ${CACHE_DIR}
